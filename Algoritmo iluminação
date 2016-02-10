@@ -1,0 +1,69 @@
+*
+Projeto automação Luzes
+*/
+// Configuração do sensor 
+int sensor = 5;// Pino selecionado
+// Leitura do dados
+int valorSensor = 5; //Usado para ler o valor do sensor
+int cor = 0; // Dimerização
+
+const int LED1 = 3;// Pino do led 1
+const int LED2 = 5;// Pino do led 2
+const int LED3 = 6;// Pino do led 3
+const int LED4 = 9;// Pino do led 4
+const int LED5 = 10;// Pino do led 5
+const int LEDFUNC = 2;// Pino de funcionamento do sistema
+
+// função inicial
+void setup(){
+  Serial.begin(9600);// Ativa o serial de valores do led
+  pinMode(LED1, OUTPUT); //Saída do led1
+  pinMode(LED2, OUTPUT); //Saída do led2
+  pinMode(LED3, OUTPUT); //Saída do led3
+  pinMode(LED4, OUTPUT); //Saída do led4
+  pinMode(LED5, OUTPUT); //Saída do led5
+  pinMode(LEDFUNC, OUTPUT); //Saída do ledfunc
+}
+//Abertura do programa de automação
+void loop(){
+  int valorSensor = analogRead(sensor); //Leitura do sensor 
+  analogWrite(LED1, cor); 
+  analogWrite(LED2, cor);
+  analogWrite(LED3, cor);
+  analogWrite(LED4, cor);
+  analogWrite(LED5, cor);
+
+// Controle do sistema de automação  
+  if (valorSensor < 800){
+    cor = 0;
+    analogWrite(LED1, cor); 
+    analogWrite(LED2, cor);
+    analogWrite(LED3, cor);
+    analogWrite(LED4, cor);
+    analogWrite(LED5, cor);
+    digitalWrite(LEDFUNC,LOW);
+    
+  }
+  if (valorSensor >= 800 && valorSensor <=1000){
+    cor = 40; // Intensidade da luz
+    // Intensidade da cor dos leds
+    analogWrite(LED1, cor); 
+    analogWrite(LED2, cor);
+    analogWrite(LED3, cor);
+    analogWrite(LED4, cor);
+    analogWrite(LED5, cor);
+    digitalWrite(LEDFUNC, HIGH);
+  }
+  if (valorSensor >1000){
+    cor = 254; // Intensidade da luz
+    analogWrite(LED1, cor); 
+    analogWrite(LED2, cor);
+    analogWrite(LED3, cor);
+    analogWrite(LED4, cor);
+    analogWrite(LED5, cor);
+    digitalWrite(LEDFUNC, HIGH); // Funcionamento
+  }
+  // Exibindo o valor do sensor no monitor
+  Serial.println(valorSensor);
+  delay(100);
+}
